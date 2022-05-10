@@ -1,0 +1,13 @@
+<form action="../product/update" method="POST">
+    <table>
+        <tr><td>Name:</td><td><input type="text" name="upName" value="<?php echo $result->name; ?>"></td></tr>
+        <tr><td>Category Name:</td><td><input type="text" name="ucatName" value="<?php echo $result->category; ?>"></td></tr>
+        <tr><td>Price:</td><td><input type="text" name="upPrice" value="<?php echo $result->price; ?>"></td></tr>
+        <tr><td>Stock:</td><td><input type="text" name="upStock" value="<?php echo $result->stock; ?>"></td></tr>
+      
+        
+      <input type="hidden"  value="<?php echo $result->_id; ?>" name="id" >
+    
+        <tr><td><button class="btn btn-warning" >Update</button></td></tr>
+     
+    </table>
