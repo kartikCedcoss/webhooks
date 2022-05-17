@@ -4,5 +4,8 @@
         "firebase/php-jwt": "^6.1",
         "guzzlehttp/guzzle": "^7.0"
         
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.6"
     }
 }

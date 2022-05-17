@@ -50,7 +50,7 @@ class ProductController extends Controller
         echo json_encode($a);
     }
     public function productUpdate($id){
-        $wHooks = new \Api\Handler\WebHooks();
+       
         $name = $this->request->get('name');
         $category = $this->request->get('category');
         $price = $this->request->get('price');
@@ -63,7 +63,7 @@ class ProductController extends Controller
             "stock"=>$stock,));
             $collection = $this->mongo->test->products;
             $result = $collection->updateOne(["_id" => new \MongoDB\BSON\ObjectId($id)],$newdata);
-            $wHooks->createWebhooks($id,"Product Update");
+            
             echo json_encode($result);
     }
     public function productCreate($name,$category,$price,$stock){

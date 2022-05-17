@@ -3,8 +3,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 use Phalcon\Loader;
 use Phalcon\Events\Manager as EventsManager;
-
-
+use \Phalcon\Debug;
 
 
 define('BASE_PATH', dirname(__DIR__));
@@ -37,6 +36,14 @@ $loader->register();
 
 $application=new Application($container);
 $eventsManager=new EventsManager();
+
+$container->set('debug',function(){
+return new Debug();
+});
+
+$container->set('prophiler',function(){
+return new \Fabfuel\Prophiler\Profiler();
+});
 
 $container->set('guzzle',function(){
     return new \App\Handler\GuzzleHelper();

@@ -67,26 +67,6 @@ class ProductController extends Controller
         $result = $collection->findOne([ "_id" => new MongoDB\BSON\ObjectId($id)]);
         $this->view->result=$result;
     }
-    public function UpdateAction(){
-        $id = $this->request->getPost('id');
-        $newdata = array('$set'=>array(
-            "name"=>$this->request->getPost('upName'),
-            "category"=>$this->request->getPost('ucatName'),
-            "price"=>$this->request->getPost('upPrice'),
-            "stock"=>$this->request->getPost('upStock'),
-            "meta"=>[$this->request->getPost('umetaLabel'),$this->request->getPost('umetaValue')],
-            "variations"=>[
-                $this->request->getPost('uattrName'),
-                $this->request->getPost('uattrValue'),
-                $this->request->getPost('uvarPrice')],
-        ));
-        $client = new MongoDB\Client("mongodb+srv://m001-student:m001-mongodb-basics@cluster0.bromc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        $collection = $client->test->products;
-        $result = $collection->updateOne(["_id" => new MongoDB\BSON\ObjectId($id)],$newdata);
-        if($result){
-            $this->response->redirect('../index');
-        }
-
-    }
+  
 
 }

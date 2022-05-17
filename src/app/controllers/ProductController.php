@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Mvc\Controller;
+use GuzzleHttp\Client;
 
 class ProductController extends Controller
 { 
@@ -60,13 +61,27 @@ class ProductController extends Controller
         $this->view->result=$result;
     }
     public function UpdateAction(){
+        $client = new Client();
           $id = $this->request->getPost('id');
+          
           $name=$this->request->getPost('upName');
           $category = $this->request->getPost('ucatName');
           $price = $this->request->getPost('upPrice');
           $stock =$this->request->getPost('upStock');
           $result = $this->guzzle->updateproduct($id,$name,$category,$price,$stock);
-          $v     = $this->guzzle->createwebhook($name,"update_product","private_key");
+          $args = [
+           "id"=>$id,
+           "name"=>$name,
+           "category"=>$category,
+           "price"=>$price,
+           "stock"=>$stock,
+             ];
+          $v = $this->guzzle->getWebhook("update");
+          foreach($v as $k){
+          $url = $k['url'];
+          $response = $client->request("POST",$url,["form_params" => $args]); 
+          }
+          
           if($result){
             $this->response->redirect('../index');
         }

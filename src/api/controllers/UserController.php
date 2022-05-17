@@ -1,9 +1,8 @@
 <?php
 
 use Api\Handler\MiddleWare;
+use MongoDB\Operation\Find;
 use Phalcon\Mvc\Controller;
-
-
 
 class UserController extends Controller
 {
@@ -101,4 +100,25 @@ class UserController extends Controller
       // $this->response->setJsoncontent(array("Token id"=>$token));
 
     }
+    public function createWebhooks($key,$name,$event){
+      $url = $this->request->get('url');
+      $client =  $mongo = new \MongoDB\Client("mongodb+srv://m001-student:m001-mongodb-basics@cluster0.bromc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+      $collection = $client->test->webhooks;
+      $insertOneResult = $collection->insertOne([
+          'key'=>$key,
+          'name' => $name,
+          'event'=>$event,
+          'url' => $url, 
+      ]);
+
+  }
+  public function getwebhook($event){
+    $a=[];
+    $collection = $this->mongo->test->webhooks;
+   $result = $collection->find(["event"=>$event]);
+   foreach($result as $v){
+    array_push($a,$v);
+    }
+    echo json_encode($a);
+  }
 }

@@ -76,10 +76,7 @@ $app->before(
 );
 
 
-$hook = new \Api\Handler\WebHooks();
-$app->get('/webhook/create/{key}/{name}/{event}',[
-$hook,'createWebhooks'
-]);
+
 
 $product = new MicroCollection();
 $product
@@ -108,6 +105,8 @@ $user
     ->get('/', 'index')
     ->get('/register', 'register')
     ->get('/getaccesstoken/{name}', 'getAccessToken')
+    ->get('/webhook/create/{key}/{name}/{event}','createWebhooks')
+    ->get('/getwebhook/{event}','getwebhook')
     ->post('/auth', 'auth')
     ->post('/adminAuth', 'adminAuth');
 $app->mount($user);
@@ -117,7 +116,7 @@ $order = new MicroCollection();
 $order
     ->setHandler(new OrderController())
     ->setPrefix('/order')
-    ->get('/create/{product_name}/{quantity}/{token}', 'create')
+    ->get('/create/{product_name}/{quantity}/{token}','create')
     ->get('/update/{id}/{status}','update');
     
 $app->mount($order);

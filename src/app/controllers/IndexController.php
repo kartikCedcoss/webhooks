@@ -14,15 +14,14 @@ class IndexController extends Controller
         }
         $collection = $this->mongo->test->products;
         $result = $this->guzzle->allProducts();
-        print_r($result);
-        echo "<br>";
-        echo "<br>";
+
         $this->view->result=$result;   
         if($this->request->getPost('view') !=""){
             $id = $this->request->getPost('view');
             $result2 = $collection->findOne([ "_id" => new MongoDB\BSON\ObjectId($id)]);
             $this->view->result2 = $result2;
         }
+
     }
    
 }
