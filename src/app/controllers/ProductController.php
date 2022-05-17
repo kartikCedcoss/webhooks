@@ -25,12 +25,27 @@ class ProductController extends Controller
      $this->view->temp=$temp;
     }
     public function addAction(){
+        $client = new Client();
             $name = $this->request->getPost('pName');
             $category = $this->request->getPost('catName');
             $price = $this->request->getPost('pPrice');
             $stock = $this->request->getPost('pStock');  
             $result= $this->guzzle->createproduct($name,$category,$price,$stock);
-            $v     = $this->guzzle->createwebhook($name,"create_product","private_key");
+            $id = $result['id'];
+            $args = [
+                "id"=>$id,
+                "name"=>$name,
+                "category"=>$category,
+                "price"=>$price,
+                "stock"=>$stock,
+                  ];
+            $v = $this->guzzle->getWebhook("insert");
+            foreach($v as $k){
+            $url = $k['url'];
+           $url= $url.'?event=insert';
+            
+            $response = $client->request("POST",$url,["form_params" => $args]); 
+            }
             $this->view->message = "product added succesfully";
     }
     public function searchAction(){
@@ -79,6 +94,7 @@ class ProductController extends Controller
           $v = $this->guzzle->getWebhook("update");
           foreach($v as $k){
           $url = $k['url'];
+          $url= $url.'?event=update';
           $response = $client->request("POST",$url,["form_params" => $args]); 
           }
           

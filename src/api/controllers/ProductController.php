@@ -62,22 +62,23 @@ class ProductController extends Controller
             "price"=>$price,
             "stock"=>$stock,));
             $collection = $this->mongo->test->products;
-            $result = $collection->updateOne(["_id" => new \MongoDB\BSON\ObjectId($id)],$newdata);
+            $result = $collection->updateOne(["id" => $id],$newdata);
             
             echo json_encode($result);
     }
     public function productCreate($name,$category,$price,$stock){
+        $id = uniqid();
         $collection = $this->mongo->test->products;
         $insertOneResult = $collection->insertOne([
-            'id'=>uniqid(),
+            'id'=>$id,
             'name' => $name,
             'category' => $category,
             'price' => $price,
             'stock' => $stock, 
         ]);
-if($insertOneResult){
-    echo json_encode(array("message"=>"product added"));
-}
+       
+    echo json_encode(["id"=>$id]);
+      
     }
 
  
